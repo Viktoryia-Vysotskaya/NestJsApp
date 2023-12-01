@@ -7,7 +7,7 @@ import {
   Body,
   Put,
 } from '@nestjs/common';
-import { ParseUUIDPipe } from '@nestjs/common';
+import { ParseUUIDPipe, NotFoundException } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDTO } from './dtos/create-product.dto';
 import { UpdateProductDTO } from './dtos/update-product.dto';
@@ -42,6 +42,9 @@ export class ProductsController {
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() productData: UpdateProductDTO,
   ) {
+    if (!this.productsService.getById(id))
+      throw new NotFoundException('Product not found');
+
     this.productsService.updateById(id, productData);
     return { success: true };
   }
