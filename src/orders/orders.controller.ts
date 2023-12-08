@@ -23,9 +23,9 @@ export class OrdersController {
 
   @Get('/:id')
   async getById(@Param('id', new ParseUUIDPipe()) id: string) {
-    const order = await this.ordersService.getById(id);
-    if (!order) throw new NotFoundException('Order not found');
-    return order;
+    const ord = await this.ordersService.getById(id);
+    if (!ord) throw new NotFoundException('Order not found');
+    return ord;
   }
 
   @Delete('/:id')
@@ -37,7 +37,7 @@ export class OrdersController {
   }
 
   @Post('/')
-  public create(@Body() orderData: CreateOrderDTO) {
+  create(@Body() orderData: CreateOrderDTO) {
     return this.ordersService.create(orderData);
   }
 
